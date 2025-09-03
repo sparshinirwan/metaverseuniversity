@@ -13,8 +13,8 @@ const Header = () => {
           <a href="#features" className="text-foreground hover:text-neon-primary transition-colors">
             Features
           </a>
-          <a href="#programs" className="text-foreground hover:text-neon-primary transition-colors">
-            Programs
+          <a href="#gamified" className="text-foreground hover:text-neon-primary transition-colors">
+            Gamified Learning
           </a>
           <a href="#campus" className="text-foreground hover:text-neon-primary transition-colors">
             Virtual Campus
