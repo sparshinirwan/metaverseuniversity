@@ -7,7 +7,9 @@ const GamifiedLearning = () => {
     points: 2485,
     level: 15,
     rank: 7,
-    totalUsers: 12450
+    totalUsers: 12450,
+    streak: 12,
+    longestStreak: 28
   };
 
   const badges = [
@@ -50,7 +52,7 @@ const GamifiedLearning = () => {
         </div>
 
         {/* User Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-12">
           <Card className="border-neon bg-card/50 backdrop-blur-sm text-center glow-soft">
             <CardContent className="p-6">
               <div className="text-3xl font-bold text-neon-primary mb-2">{userStats.points.toLocaleString()}</div>
@@ -75,9 +77,81 @@ const GamifiedLearning = () => {
               <div className="text-muted-foreground">Active Learners</div>
             </CardContent>
           </Card>
+          <Card className="border-neon bg-card/50 backdrop-blur-sm text-center glow-soft">
+            <CardContent className="p-6">
+              <div className="text-3xl font-bold text-neon-secondary mb-2 flex items-center justify-center gap-2">
+                🔥 {userStats.streak}
+              </div>
+              <div className="text-muted-foreground">Day Streak</div>
+              <div className="text-xs text-muted-foreground mt-1">Best: {userStats.longestStreak} days</div>
+            </CardContent>
+          </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Streak Tracker */}
+          <Card className="border-neon bg-card/50 backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-neon-primary flex items-center gap-2">
+                🔥 Learning Streak
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center mb-6">
+                <div className="text-4xl font-bold text-neon-secondary mb-2">{userStats.streak} Days</div>
+                <div className="text-muted-foreground">Current Streak</div>
+                <div className="text-sm text-neon-tertiary mt-1">Best: {userStats.longestStreak} days</div>
+              </div>
+              
+              {/* Daily Progress Visual */}
+              <div className="space-y-3">
+                <div className="text-sm font-semibold text-foreground mb-2">Last 7 Days</div>
+                <div className="grid grid-cols-7 gap-2">
+                  {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => {
+                    const isActive = index < 6; // Last 6 days active, today pending
+                    const isToday = index === 6;
+                    return (
+                      <div key={day} className="text-center">
+                        <div className="text-xs text-muted-foreground mb-1">{day}</div>
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-gradient-to-br from-neon-primary/30 to-neon-secondary/30 border border-neon-primary text-neon-primary glow-soft' 
+                            : isToday
+                            ? 'bg-muted/30 border border-muted text-muted-foreground animate-pulse'
+                            : 'bg-muted/10 border border-muted/30 text-muted-foreground'
+                        }`}>
+                          {isActive ? '✓' : isToday ? '?' : '✗'}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="text-xs text-center text-muted-foreground mt-3">
+                  Complete today's activity to continue your streak!
+                </div>
+              </div>
+
+              {/* Streak Milestones */}
+              <div className="mt-6 pt-4 border-t border-muted/30">
+                <div className="text-sm font-semibold text-foreground mb-3">Next Milestone</div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">15 Day Streak</span>
+                    <span className="text-neon-primary">+200 pts</span>
+                  </div>
+                  <div className="w-full bg-muted/20 rounded-full h-2">
+                    <div 
+                      className="bg-gradient-to-r from-neon-primary to-neon-secondary h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${(userStats.streak / 15) * 100}%` }}
+                    ></div>
+                  </div>
+                  <div className="text-xs text-muted-foreground text-center">
+                    {15 - userStats.streak} days to go
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           {/* Badges Collection */}
           <Card className="border-neon bg-card/50 backdrop-blur-sm">
             <CardHeader>
